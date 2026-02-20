@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Phone Login</title>
+</head>
+<body>
+
+<div id="recaptcha-container"></div>
+
+<input id="phoneNumber" placeholder="+628xxxxxxxxxx">
+<button onclick="sendOTP()">Kirim OTP</button>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBQVXuqpkgOelSMhgg-I5QRokehHvm-c8M",
+    authDomain: "rsynzr-cloud.firebaseapp.com",
+    projectId: "rsynzr-cloud",
+    appId: "1:284978411498:web:2e1a2abb680b0a86f4a493",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+  size: 'normal'
+});
+
+window.sendOTP = async function() {
+  const phone = document.getElementById("phoneNumber").value;
+
+  try {
+    const confirmationResult = await signInWithPhoneNumber(
+      auth,
+      phone,
+      window.recaptchaVerifier
+    );
+
+    const code = prompt("Masukkan OTP:");
+    await confirmationResult.confirm(code);
+
+    window.location.href = "/dashboard";
+  } catch (error) {
+    console.error(error);
+  }
+};
+</script>
+
+</body>
+</html>

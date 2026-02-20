@@ -1,0 +1,29 @@
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth, 
+  signInWithPopup,
+  GoogleAuthProvider
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBQVXuqpkgOelSMhgg-I5QRokehHvm-c8M",
+    authDomain: "rsynzr-cloud.firebaseapp.com",
+    projectId: "rsynzr-cloud",
+    appId: "1:284978411498:web:2e1a2abb680b0a86f4a493",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const provider = new GoogleAuthProvider();
+
+signInWithPopup(auth, provider)
+  .then(result => {
+    window.location.href = "/dashboard/";
+  })
+  .catch(error => {
+    console.error(error);
+    window.location.href = "/login/";
+  });
+</script>
