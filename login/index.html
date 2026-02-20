@@ -123,16 +123,33 @@
   <button class="login-btn">Login</button>
 
   <div class="register-link">
-    Tidak memiliki akun? <a href="/register.html">Daftar</a>
-  </div>
+  Tidak memiliki akun? <a href="/register.html">Daftar</a>
+</div>
 
-  <div class="divider">Atau login dengan</div>
+<div class="divider">Atau login dengan</div>
 
-  <button class="provider-btn">Login dengan Google</button>
-  <button class="provider-btn">Login dengan GitHub</button>
-  <button class="provider-btn">Login dengan Phone</button>
-  <button class="provider-btn">Login sebagai Anonymous</button>
+<button class="provider-btn" onclick="goGoogle()">Login dengan Google</button>
+<button class="provider-btn" onclick="goGithub()">Login dengan GitHub</button>
+<button class="provider-btn" onclick="goPhone()">Login dengan Phone</button>
+<button class="provider-btn" onclick="goAnonymous()">Login sebagai Anonymous</button>
 
+<script>
+function goGoogle() {
+  window.location.href = "/auth/google";
+}
+
+function goGithub() {
+  window.location.href = "/auth/github";
+}
+
+function goPhone() {
+  window.location.href = "/auth/phone";
+}
+
+function goAnonymous() {
+  window.location.href = "/auth/anonymous";
+}
+</script>
   <a href="/" class="back-link">← Kembali ke Home</a>
 </div>
 
