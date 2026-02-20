@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Daftar Akun</title>
+</head>
+<body>
+
+<h2>Daftar Akun</h2>
+
+<input type="email" id="email" placeholder="Email">
+<br><br>
+
+<input type="password" id="password" placeholder="Password">
+<br><br>
+
+<button onclick="register()">Daftar</button>
+
+<p id="message"></p>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBQVXuqpkgOelSMhgg-I5QRokehHvm-c8M",
+    authDomain: "rsynzr-cloud.firebaseapp.com",
+    projectId: "rsynzr-cloud",
+    appId: "1:284978411498:web:2e1a2abb680b0a86f4a493",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.register = async function() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("message");
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    message.innerText = "Akun berhasil dibuat!";
+    console.log("User:", userCredential.user);
+
+    // langsung arahkan ke dashboard
+    window.location.href = "/dashboard";
+
+  } catch (error) {
+    console.error(error);
+
+    if (error.code === "auth/email-already-in-use") {
+      message.innerText = "Email sudah digunakan.";
+    } else if (error.code === "auth/weak-password") {
+      message.innerText = "Password minimal 6 karakter.";
+    } else {
+      message.innerText = "Terjadi kesalahan: " + error.message;
+    }
+  }
+};
+</script>
+
+</body>
+</html>
