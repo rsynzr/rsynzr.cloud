@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Berhasil</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1e2a78, #3b3fa0);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background-color: rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      opacity: 0.7;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .success-card {
+      background: rgba(255,255,255,0.1);
+      padding: 50px;
+      border-radius: 15px;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      backdrop-filter: blur(10px);
+    }
+
+    .success-card h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .success-card p {
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 22px;
+      border-radius: 8px;
+      border: 2px solid white;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: white;
+      color: #1e2a78;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.2);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">RSYNZR</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/dashboard">Dashboard</a>
+  </nav>
+</header>
+
+<div class="main">
+  <div class="success-card">
+    <h1 id="welcomeText">Login Berhasil 🎉</h1>
+    <p>Akun Anda berhasil masuk ke sistem.</p>
+
+    <div class="btn-group">
+      <button class="btn" onclick="goHome()">Kembali ke Home</button>
+      <button class="btn" onclick="goDashboard()">Masuk ke Dashboard</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 RSYNZR. All rights reserved.
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "ISI_API_KEY",
+  authDomain: "ISI_AUTH_DOMAIN",
+  projectId: "ISI_PROJECT_ID",
+  appId: "ISI_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const name = user.email || "Pengguna";
+    document.getElementById("welcomeText").innerText =
+      "Login Berhasil 🎉\nHalo, " + name;
+  } else {
+    window.location.href = "/login";
+  }
+});
+
+window.goHome = function() {
+  window.location.href = "/";
+};
+
+window.goDashboard = function() {
+  window.location.href = "/dashboard";
+};
+</script>
+
+</body>
+</html>
