@@ -1,173 +1,273 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Login Berhasil</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Successful — RSYNZR</title>
   <style>
-    * {
+    *, *::before, *::after {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
     }
 
     body {
-      background: linear-gradient(135deg, #1e2a78, #3b3fa0);
-      color: white;
-      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(160deg, #0b1220 0%, #0f1b3d 55%, #1a2f6b 100%);
+      background-attachment: fixed;
+      color: #fff;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
     }
 
+    /* ── HEADER ── */
     header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 20px 60px;
-      background-color: rgba(0,0,0,0.2);
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 60px;
+      background: rgba(11, 18, 32, 0.7);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     }
 
     .logo {
-      font-size: 22px;
-      font-weight: bold;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #fff;
+      text-decoration: none;
     }
 
     nav {
       display: flex;
-      gap: 25px;
-      align-items: center;
+      gap: 0.25rem;
     }
 
     nav a {
+      color: rgba(255, 255, 255, 0.65);
       text-decoration: none;
-      color: white;
-      font-size: 15px;
-      transition: 0.3s;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     }
 
     nav a:hover {
-      opacity: 0.7;
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.07);
     }
 
-    .main {
+    /* ── MAIN ── */
+    main {
       flex: 1;
       display: flex;
-      justify-content: center;
       align-items: center;
-      padding: 40px;
+      justify-content: center;
+      padding: 2rem;
     }
 
-    .success-card {
-      background: rgba(255,255,255,0.1);
-      padding: 50px;
-      border-radius: 15px;
-      text-align: center;
+    .card {
       width: 100%;
-      max-width: 500px;
-      backdrop-filter: blur(10px);
+      max-width: 460px;
+      background: rgba(15, 27, 61, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 22px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 60px rgba(59, 130, 246, 0.08);
+      animation: fadeUp 0.6s ease both;
     }
 
-    .success-card h1 {
-      font-size: 32px;
-      margin-bottom: 15px;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .success-card p {
-      margin-bottom: 30px;
-      opacity: 0.9;
+    .check-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin: 0 auto 1.5rem;
+    }
+
+    .card h1 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .card .subtitle {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 0.85rem;
+    }
+
+    .redirect-notice {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.35);
+      margin-bottom: 2rem;
+    }
+
+    .redirect-notice span {
+      color: rgba(255, 255, 255, 0.55);
+      font-weight: 600;
+    }
+
+    .progress-bar {
+      height: 2px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      border-radius: 2px;
+      animation: progress 3s linear forwards;
+    }
+
+    @keyframes progress {
+      from { width: 0%; }
+      to   { width: 100%; }
     }
 
     .btn-group {
       display: flex;
+      gap: 0.85rem;
       justify-content: center;
-      gap: 20px;
       flex-wrap: wrap;
     }
 
     .btn {
-      padding: 10px 22px;
-      border-radius: 8px;
-      border: 2px solid white;
-      background: transparent;
-      color: white;
+      padding: 0.7rem 1.6rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: inherit;
+      letter-spacing: 0.01em;
       cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: transparent;
+      color: #fff;
     }
 
     .btn:hover {
-      background: white;
-      color: #1e2a78;
+      background: #fff;
+      color: #0b1220;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
     }
 
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    /* ── FOOTER ── */
     footer {
       text-align: center;
-      padding: 20px;
-      background: rgba(0,0,0,0.2);
-      font-size: 14px;
+      padding: 1.25rem 2rem;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.25);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">RSYNZR</div>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/dashboard">Dashboard</a>
-  </nav>
-</header>
+  <header>
+    <a href="/" class="logo">RSYNZR</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/dashboard">Dashboard</a>
+    </nav>
+  </header>
 
-<div class="main">
-  <div class="success-card">
-    <h1 id="welcomeText">Login Berhasil 🎉</h1>
-    <p>Akun Anda berhasil masuk ke sistem.</p>
-
-    <div class="btn-group">
-      <button class="btn" onclick="goHome()">Kembali ke Home</button>
-      <button class="btn" onclick="goDashboard()">Masuk ke Dashboard</button>
+  <main>
+    <div class="card">
+      <div class="check-icon">🎉</div>
+      <h1 id="title">Login Successful</h1>
+      <p class="subtitle" id="subtitle">You have successfully logged in.</p>
+      <p class="redirect-notice">Redirecting to dashboard in <span id="countdown">3</span>s…</p>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <div class="btn-group">
+        <a href="/" class="btn">Go Home</a>
+        <a href="/dashboard" class="btn">Go to Dashboard</a>
+      </div>
     </div>
-  </div>
-</div>
+  </main>
 
-<footer>
-  © 2026 RSYNZR. All rights reserved.
-</footer>
+  <footer>© 2026 RSYNZR. All rights reserved.</footer>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { 
-  getAuth,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const firebaseConfig = {
-  apiKey: "ISI_API_KEY",
-  authDomain: "ISI_AUTH_DOMAIN",
-  projectId: "ISI_PROJECT_ID",
-  appId: "ISI_APP_ID"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQVXuqpkgOelSMhgg-I5QRokehHvm-c8M",
+      authDomain: "rsynzr-cloud.firebaseapp.com",
+      projectId: "rsynzr-cloud",
+      appId: "1:284978411498:web:2e1a2abb680b0a86f4a493",
+    };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    const name = user.email || "Pengguna";
-    document.getElementById("welcomeText").innerText =
-      "Login Berhasil 🎉\nHalo, " + name;
-  } else {
-    window.location.href = "/login";
-  }
-});
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "/login";
+        return;
+      }
 
-window.goHome = function() {
-  window.location.href = "/";
-};
+      const displayName = user.displayName || user.email || "User";
+      document.getElementById("title").textContent = `Login Successful 🎉 Hello, ${displayName}`;
 
-window.goDashboard = function() {
-  window.location.href = "/dashboard";
-};
-</script>
+      let seconds = 3;
+      const countdownEl = document.getElementById("countdown");
+
+      const timer = setInterval(() => {
+        seconds--;
+        countdownEl.textContent = seconds;
+        if (seconds <= 0) {
+          clearInterval(timer);
+          window.location.href = "https://rsynzr.cloud/dashboard";
+        }
+      }, 1000);
+    });
+  </script>
 
 </body>
 </html>
