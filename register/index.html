@@ -1,354 +1,433 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign Up — rsynzr.cloud</title>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-dark: #0b1220;
+      --bg-mid: #0f1b3d;
+      --bg-light: #1a2f6b;
+      --accent-bright: #60a5fa;
+      --accent-glow: rgba(59,130,246,0.4);
+      --text-primary: #e8f0fe;
+      --text-secondary: #94a3b8;
+      --card-bg: rgba(15,27,61,0.6);
+      --card-border: rgba(59,130,246,0.18);
+      --nav-bg: rgba(11,18,32,0.75);
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(160deg, var(--bg-dark) 0%, var(--bg-mid) 50%, var(--bg-light) 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(59,130,246,0.12);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--accent-bright); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--accent-bright);
+      background: rgba(59,130,246,0.1);
+    }
+    .nav-links a.cta {
+      background: rgba(59,130,246,0.15);
+      border: 1px solid rgba(59,130,246,0.3);
+      color: var(--accent-bright);
+    }
+    .nav-links a.cta:hover { background: rgba(59,130,246,0.28); }
+
+    /* AUTH PAGE */
+    .auth-page {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(160deg, #0b1220 0%, #0f1b3d 55%, #1a2f6b 100%);
-      background-attachment: fixed;
-      padding: 1.5rem;
+      padding: 5rem 1.25rem 2rem;
     }
 
-    .card {
+    .auth-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2.5rem;
       width: 100%;
       max-width: 420px;
-      background: rgba(10, 22, 48, 0.75);
-      border: 1px solid rgba(59, 130, 246, 0.18);
-      border-radius: 22px;
-      padding: 2.75rem 2.5rem;
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.45),
-        0 0 0 1px rgba(59, 130, 246, 0.08),
-        0 0 60px rgba(59, 130, 246, 0.07);
       animation: fadeUp 0.6s ease both;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(59,130,246,0.1);
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .brand {
+    .auth-brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
       text-align: center;
-      margin-bottom: 0.5rem;
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #60a5fa;
     }
+    .auth-brand span { color: var(--accent-bright); }
 
-    .card h1 {
-      text-align: center;
-      font-size: 1.65rem;
+    .auth-title {
+      font-size: 1.6rem;
       font-weight: 800;
       letter-spacing: -0.03em;
-      color: #e8f0fe;
+      background: linear-gradient(135deg, #e8f0fe 30%, var(--accent-bright) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       margin-bottom: 0.4rem;
-    }
-
-    .card-sub {
       text-align: center;
-      font-size: 0.85rem;
-      color: rgba(148, 163, 184, 0.7);
-      margin-bottom: 2rem;
     }
 
-    .field {
+    .auth-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.75rem;
+      text-align: center;
+    }
+
+    .auth-error {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      color: #fca5a5;
+      font-size: 0.85rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      margin-bottom: 1.25rem;
+      text-align: center;
+      display: none;
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .auth-field {
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
-      margin-bottom: 1.1rem;
     }
-
-    label {
-      font-size: 0.8rem;
+    .auth-field label {
+      font-size: 0.82rem;
       font-weight: 600;
-      color: #94a3b8;
-      letter-spacing: 0.03em;
+      color: var(--text-secondary);
+      letter-spacing: 0.04em;
     }
-
-    input {
-      width: 100%;
-      padding: 0.78rem 1rem;
-      background: rgba(11, 18, 32, 0.8);
-      border: 1px solid rgba(59, 130, 246, 0.2);
-      border-radius: 11px;
-      color: #e8f0fe;
-      font-size: 0.92rem;
-      font-family: inherit;
+    .auth-field input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      color: var(--text-primary);
+      font-size: 0.93rem;
       outline: none;
-      transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
-    }
-
-    input::placeholder {
-      color: rgba(148, 163, 184, 0.35);
-    }
-
-    input:focus {
-      border-color: rgba(96, 165, 250, 0.65);
-      background: rgba(15, 27, 61, 0.9);
-      box-shadow:
-        0 0 0 3px rgba(59, 130, 246, 0.18),
-        0 0 20px rgba(59, 130, 246, 0.12);
-    }
-
-    input:-webkit-autofill,
-    input:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 1000px #0d1a3a inset, 0 0 0 3px rgba(59, 130, 246, 0.18);
-      -webkit-text-fill-color: #e8f0fe;
-      transition: background-color 9999s ease-in-out 0s;
-    }
-
-    .btn {
+      transition: border-color 0.2s, box-shadow 0.2s;
       width: 100%;
-      padding: 0.85rem;
-      margin-top: 0.5rem;
-      border: none;
-      border-radius: 11px;
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
+    }
+    .auth-field input::placeholder { color: rgba(148,163,184,0.45); }
+    .auth-field input:focus {
+      border-color: rgba(96,165,250,0.5);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    }
+
+    .auth-submit {
+      width: 100%;
+      padding: 0.8rem;
+      background: linear-gradient(135deg, rgba(59,130,246,0.8), rgba(96,165,250,0.7));
+      border: 1px solid rgba(96,165,250,0.5);
+      border-radius: 12px;
       color: #fff;
       font-size: 0.95rem;
-      font-weight: 700;
-      font-family: inherit;
-      letter-spacing: 0.01em;
+      font-weight: 600;
       cursor: pointer;
-      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
-      position: relative;
-      overflow: hidden;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+      margin-top: 0.25rem;
     }
-
-    .btn:hover:not(:disabled) {
+    .auth-submit:hover {
+      opacity: 0.9;
       transform: translateY(-2px);
-      background: linear-gradient(135deg, #1d4ed8, #2563eb);
-      box-shadow:
-        0 8px 28px rgba(37, 99, 235, 0.5),
-        0 0 40px rgba(59, 130, 246, 0.25);
+      box-shadow: 0 6px 20px rgba(59,130,246,0.35);
     }
+    .auth-submit:active { transform: translateY(0); }
+    .auth-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    .btn:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    .btn:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-
-    .btn-inner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .spinner {
-      display: none;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .btn.loading .spinner { display: block; }
-    .btn.loading .btn-text { opacity: 0.7; }
-
-    .message {
-      margin-top: 1rem;
-      padding: 0.7rem 1rem;
-      border-radius: 9px;
-      font-size: 0.83rem;
-      font-weight: 500;
-      text-align: center;
-      display: none;
-      animation: fadeUp 0.3s ease both;
-    }
-
-    .message.error {
-      display: block;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
-    }
-
-    .message.success {
-      display: block;
-      background: rgba(34, 197, 94, 0.1);
-      border: 1px solid rgba(34, 197, 94, 0.25);
-      color: #86efac;
-    }
-
-    .divider {
+    .auth-divider {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin: 1.4rem 0 1rem;
-      color: rgba(148, 163, 184, 0.35);
-      font-size: 0.78rem;
+      margin-bottom: 1.25rem;
     }
-
-    .divider::before,
-    .divider::after {
+    .auth-divider::before, .auth-divider::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: rgba(59, 130, 246, 0.12);
+      background: rgba(255,255,255,0.1);
+    }
+    .auth-divider span {
+      font-size: 0.78rem;
+      color: rgba(148,163,184,0.5);
+      white-space: nowrap;
     }
 
-    .login-link {
+    .auth-providers {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .provider-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0.75rem 1.25rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      text-align: left;
+    }
+    .provider-btn:hover {
+      background: rgba(59,130,246,0.1);
+      border-color: rgba(96,165,250,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(59,130,246,0.15);
+    }
+    .provider-btn:active { transform: translateY(0); }
+    .provider-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .provider-btn.secondary {
+      border-color: rgba(59,130,246,0.12);
+      color: var(--text-secondary);
+    }
+    .provider-btn svg { flex-shrink: 0; }
+
+    .auth-footer {
       text-align: center;
-      font-size: 0.84rem;
-      color: rgba(148, 163, 184, 0.6);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
     }
-
-    .login-link a {
-      color: #60a5fa;
+    .auth-footer a {
+      color: var(--accent-bright);
       text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s ease, text-shadow 0.2s ease;
+      font-weight: 500;
+    }
+    .auth-footer a:hover { text-decoration: underline; }
+
+    footer {
+      border-top: 1px solid rgba(59,130,246,0.1);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: rgba(148,163,184,0.5);
     }
 
-    .login-link a:hover {
-      color: #93c5fd;
-      text-shadow: 0 0 12px rgba(96, 165, 250, 0.4);
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 420px) {
+      .nav-links a:not(.cta) { display: none; }
+      .auth-card { padding: 2rem 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="brand">rsynzr.cloud</div>
-    <h1>Create Account</h1>
-    <p class="card-sub">Join rsynzr.cloud to get started</p>
+  <nav>
+    <a href="https://rsynzr.cloud/" class="nav-brand">rsynzr<span>.cloud</span></a>
+    <ul class="nav-links">
+      <li><a href="signin.html">Login</a></li>
+      <li><a href="signup.html" class="cta">Sign Up</a></li>
+      <li><a href="https://rsynzr.cloud/">Home</a></li>
+      <li><a href="https://project.rsynzr.cloud/">Projects</a></li>
+      <li><a href="https://donate.rsynzr.cloud/">Donate</a></li>
+    </ul>
+  </nav>
 
-    <div class="field">
-      <label for="email">Email address</label>
-      <input
-        type="email"
-        id="email"
-        placeholder="you@example.com"
-        autocomplete="email"
-      />
-    </div>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-brand">rsynzr<span>.cloud</span></div>
+      <h1 class="auth-title">Buat Akun</h1>
+      <p class="auth-subtitle">Daftar dengan username &amp; password</p>
 
-    <div class="field">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        placeholder="Minimum 6 characters"
-        autocomplete="new-password"
-      />
-    </div>
+      <div class="auth-error" id="error-msg"></div>
 
-    <button class="btn" id="registerBtn" onclick="register()">
-      <div class="btn-inner">
-        <div class="spinner"></div>
-        <span class="btn-text">Sign Up</span>
+      <form class="auth-form" id="register-form">
+        <div class="auth-field">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="username kamu" autocomplete="username" required />
+        </div>
+        <div class="auth-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="kamu@email.com" autocomplete="email" required />
+        </div>
+        <div class="auth-field">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="minimal 6 karakter" autocomplete="new-password" required />
+        </div>
+        <div class="auth-field">
+          <label for="confirm">Konfirmasi Password</label>
+          <input type="password" id="confirm" placeholder="ulangi password" autocomplete="new-password" required />
+        </div>
+        <button type="submit" class="auth-submit" id="btn-register">Buat Akun</button>
+      </form>
+
+      <div class="auth-divider"><span>atau daftar dengan</span></div>
+
+      <div class="auth-providers">
+        <button class="provider-btn" id="btn-google">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Daftar dengan Google
+        </button>
+        <button class="provider-btn" id="btn-github">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          Daftar dengan GitHub
+        </button>
+        <button class="provider-btn secondary" id="btn-anon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          Lanjutkan sebagai Anonim
+        </button>
       </div>
-    </button>
 
-    <div class="message" id="message"></div>
-
-    <div class="divider">or</div>
-
-    <p class="login-link">Already have an account? <a href="/login/">Log in</a></p>
+      <div class="auth-footer">
+        Sudah punya akun? <a href="signin.html">Masuk di sini</a>
+      </div>
+    </div>
   </div>
+
+  <footer>&copy; 2026 rsynzr.cloud. All rights reserved.</footer>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getAuth,
+      signInWithPopup,
+      createUserWithEmailAndPassword,
+      updateProfile,
+      signInAnonymously,
+      GoogleAuthProvider,
+      GithubAuthProvider,
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    const firebaseConfig = {
+    const app = initializeApp({
       apiKey: "AIzaSyBQVXuqpkgOelSMhgg-I5QRokehHvm-c8M",
       authDomain: "rsynzr-cloud.firebaseapp.com",
       projectId: "rsynzr-cloud",
       appId: "1:284978411498:web:2e1a2abb680b0a86f4a493",
-    };
-
-    const app = initializeApp(firebaseConfig);
+    });
     const auth = getAuth(app);
 
-    function showMessage(text, type) {
-      const el = document.getElementById("message");
-      el.textContent = text;
-      el.className = "message " + type;
+    const errorEl = document.getElementById("error-msg");
+
+    function showError(msg) {
+      errorEl.textContent = msg;
+      errorEl.style.display = "block";
     }
 
-    function setLoading(loading) {
-      const btn = document.getElementById("registerBtn");
-      btn.disabled = loading;
-      if (loading) {
-        btn.classList.add("loading");
-      } else {
-        btn.classList.remove("loading");
-      }
+    function setLoading(disabled) {
+      document.querySelectorAll("button, input").forEach(el => el.disabled = disabled);
     }
 
-    window.register = async function () {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-
-      if (!email || !password) {
-        showMessage("Please fill in all fields.", "error");
-        return;
-      }
-
+    async function attempt(fn) {
+      errorEl.style.display = "none";
       setLoading(true);
-
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        showMessage("Account created! Redirecting…", "success");
-        setTimeout(() => { window.location.href = "/dashboard"; }, 1200);
-      } catch (err) {
-        let msg;
-        switch (err.code) {
-          case "auth/email-already-in-use":
-            msg = "This email is already registered. Try logging in instead.";
-            break;
-          case "auth/weak-password":
-            msg = "Password is too weak. Please use at least 6 characters.";
-            break;
-          case "auth/invalid-email":
-            msg = "Please enter a valid email address.";
-            break;
-          case "auth/network-request-failed":
-            msg = "Network error. Please check your connection and try again.";
-            break;
-          default:
-            msg = "Something went wrong. Please try again.";
-        }
-        showMessage(msg, "error");
-      } finally {
+        await fn();
+        window.location.href = "/dashboard";
+      } catch (e) {
+        showError(e.message || "Pendaftaran gagal. Coba lagi.");
         setLoading(false);
       }
-    };
+    }
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") window.register();
+    document.getElementById("register-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const email    = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const confirm  = document.getElementById("confirm").value;
+
+      if (password !== confirm) return showError("Password dan konfirmasi tidak cocok.");
+      if (password.length < 6) return showError("Password minimal 6 karakter.");
+
+      attempt(async () => {
+        const res = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(res.user, { displayName: username });
+      });
     });
-  </script>
 
+    document.getElementById("btn-google").addEventListener("click", () =>
+      attempt(() => signInWithPopup(auth, new GoogleAuthProvider()))
+    );
+
+    document.getElementById("btn-github").addEventListener("click", () =>
+      attempt(() => signInWithPopup(auth, new GithubAuthProvider()))
+    );
+
+    document.getElementById("btn-anon").addEventListener("click", () =>
+      attempt(() => signInAnonymously(auth))
+    );
+  </script>
 </body>
 </html>
