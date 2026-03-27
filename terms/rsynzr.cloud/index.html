@@ -1,103 +1,386 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service - rsynzr.cloud</title>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h1, h2, h3 { color: #333; }
-        p { margin-bottom: 1em; }
-        ul { margin-left: 20px; }
-        .section { margin-bottom: 2em; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — rsynzr.cloud</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-dark: #0b1220;
+      --bg-mid: #0f1b3d;
+      --bg-light: #1a2f6b;
+      --accent: #3b82f6;
+      --accent-bright: #60a5fa;
+      --accent-glow: rgba(59,130,246,0.4);
+      --text-primary: #e8f0fe;
+      --text-secondary: #94a3b8;
+      --card-bg: rgba(15,27,61,0.6);
+      --card-border: rgba(59,130,246,0.18);
+      --nav-bg: rgba(11,18,32,0.75);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(160deg, var(--bg-dark) 0%, var(--bg-mid) 50%, var(--bg-light) 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(59,130,246,0.12);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--accent-bright); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--accent-bright);
+      background: rgba(59,130,246,0.1);
+    }
+    .nav-links a.cta {
+      background: rgba(59,130,246,0.15);
+      border: 1px solid rgba(59,130,246,0.3);
+      color: var(--accent-bright);
+    }
+    .nav-links a.cta:hover { background: rgba(59,130,246,0.28); }
+
+    /* HERO */
+    .hero {
+      padding: 8rem 2rem 3rem;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.25);
+      padding: 0.3rem 0.85rem;
+      border-radius: 20px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #e8f0fe 30%, var(--accent-bright) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-date {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    /* CONTENT */
+    .content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 1.75rem 2rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: border-color 0.28s ease, box-shadow 0.28s ease;
+      animation: fadeUp 0.6s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96,165,250,0.25), transparent);
+    }
+
+    .section:hover {
+      border-color: rgba(96,165,250,0.35);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 24px rgba(59,130,246,0.1);
+    }
+
+    .section:nth-child(1)  { animation-delay: 0.05s; }
+    .section:nth-child(2)  { animation-delay: 0.10s; }
+    .section:nth-child(3)  { animation-delay: 0.15s; }
+    .section:nth-child(4)  { animation-delay: 0.20s; }
+    .section:nth-child(5)  { animation-delay: 0.25s; }
+    .section:nth-child(6)  { animation-delay: 0.30s; }
+    .section:nth-child(7)  { animation-delay: 0.35s; }
+    .section:nth-child(8)  { animation-delay: 0.40s; }
+    .section:nth-child(9)  { animation-delay: 0.45s; }
+    .section:nth-child(10) { animation-delay: 0.50s; }
+    .section:nth-child(11) { animation-delay: 0.55s; }
+    .section:nth-child(12) { animation-delay: 0.60s; }
+    .section:nth-child(13) { animation-delay: 0.65s; }
+
+    .section-num {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-bright);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-num-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent-bright);
+      box-shadow: 0 0 6px var(--accent-glow);
+    }
+
+    .section h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .section p {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.65rem;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .section ul {
+      margin: 0.5rem 0 0 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .section ul li {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+
+    .section ul li::marker {
+      color: var(--accent-bright);
+    }
+
+    .section a {
+      color: var(--accent-bright);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .section a:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(59,130,246,0.1);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: rgba(148,163,184,0.5);
+    }
+    footer a {
+      color: var(--accent-bright);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 620px) {
+      nav { padding: 0 1rem; }
+      .nav-links a:not(.cta) { display: none; }
+      .hero { padding: 7rem 1.25rem 2.5rem; }
+      .content { padding: 0 1.25rem 4rem; }
+      .section { padding: 1.5rem 1.25rem; }
+    }
+  </style>
 </head>
 <body>
-    <h1>Ketentuan Layanan (Terms of Service)</h1>
-    <p>Tanggal efektif: 24 Februari 2026</p>
+
+  <nav>
+    <a href="https://rsynzr.cloud/" class="nav-brand">rsynzr<span>.cloud</span></a>
+    <ul class="nav-links">
+      <li><a href="signin.html">Login</a></li>
+      <li><a href="signup.html" class="cta">Sign Up</a></li>
+      <li><a href="https://rsynzr.cloud/">Home</a></li>
+      <li><a href="https://project.rsynzr.cloud/">Projects</a></li>
+      <li><a href="https://donate.rsynzr.cloud/">Donate</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Legal</div>
+    <h1>Terms of Service</h1>
+    <p class="hero-date">Tanggal efektif: 24 Februari 2026</p>
+  </div>
+
+  <div class="content">
 
     <div class="section">
-        <h2>1. Penerimaan Ketentuan</h2>
-        <p>Dengan mengakses atau menggunakan layanan kami di <strong>rsynzr.cloud</strong>, Anda menyetujui dan terikat oleh Ketentuan Layanan ini. Jika Anda tidak setuju dengan syarat-syarat ini, harap jangan gunakan layanan kami.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 1</div>
+      <h2>Penerimaan Ketentuan</h2>
+      <p>Dengan mengakses atau menggunakan layanan kami di <strong style="color:var(--text-primary)">rsynzr.cloud</strong>, Anda menyetujui dan terikat oleh Ketentuan Layanan ini. Jika Anda tidak setuju dengan syarat-syarat ini, harap jangan gunakan layanan kami.</p>
     </div>
 
     <div class="section">
-        <h2>2. Deskripsi Layanan</h2>
-        <p>Layanan kami menyediakan konten, informasi, dan/atau perangkat lunak yang diakses melalui situs web dan aplikasi seluler. Kami dapat memperbarui, memodifikasi, atau menghentikan layanan kapan saja tanpa pemberitahuan sebelumnya.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 2</div>
+      <h2>Deskripsi Layanan</h2>
+      <p>Layanan kami menyediakan konten, informasi, dan/atau perangkat lunak yang diakses melalui situs web dan aplikasi seluler. Kami dapat memperbarui, memodifikasi, atau menghentikan layanan kapan saja tanpa pemberitahuan sebelumnya.</p>
     </div>
 
     <div class="section">
-        <h2>3. Akun Pengguna</h2>
-        <p>Beberapa fitur memerlukan pembuatan akun. Anda bertanggung jawab menjaga kerahasiaan kredensial akun Anda. Anda setuju untuk memberikan informasi yang akurat dan lengkap.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 3</div>
+      <h2>Akun Pengguna</h2>
+      <p>Beberapa fitur memerlukan pembuatan akun. Anda bertanggung jawab menjaga kerahasiaan kredensial akun Anda. Anda setuju untuk memberikan informasi yang akurat dan lengkap.</p>
     </div>
 
     <div class="section">
-        <h2>4. Iklan dan Monetisasi</h2>
-        <p>Kami menggunakan layanan iklan pihak ketiga untuk memonetisasi situs dan aplikasi kami. Termasuk namun tidak terbatas pada:</p>
-        <ul>
-            <li>Google AdMob</li>
-            <li>Google AdSense</li>
-            <li>Pelayanan iklan lain yang mungkin kami gunakan dari waktu ke waktu</li>
-        </ul>
-        <p>Penggunaan iklan ini tunduk pada kebijakan privasi dan persyaratan layanan dari penyedia iklan tersebut. Kami tidak bertanggung jawab atas konten iklan atau praktik privasi penyedia iklan.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 4</div>
+      <h2>Iklan dan Monetisasi</h2>
+      <p>Kami menggunakan layanan iklan pihak ketiga untuk memonetisasi situs dan aplikasi kami. Termasuk namun tidak terbatas pada:</p>
+      <ul>
+        <li>Google AdMob</li>
+        <li>Google AdSense</li>
+        <li>Pelayanan iklan lain yang mungkin kami gunakan dari waktu ke waktu</li>
+      </ul>
+      <p>Penggunaan iklan ini tunduk pada kebijakan privasi dan persyaratan layanan dari penyedia iklan tersebut. Kami tidak bertanggung jawab atas konten iklan atau praktik privasi penyedia iklan.</p>
     </div>
 
     <div class="section">
-        <h2>5. Konten Pengguna</h2>
-        <p>Anda dapat mengirimkan, memposting, atau menampilkan konten di layanan kami. Dengan melakukannya, Anda memberikan kami hak non-eksklusif, bebas royalti, dan dapat disublisensikan untuk menggunakan, menyalin, memodifikasi, serta memublikasikan konten tersebut di seluruh dunia.</p>
-        <p>Anda bertanggung jawab atas konten yang Anda unggah dan harus mematuhi hukum yang berlaku.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 5</div>
+      <h2>Konten Pengguna</h2>
+      <p>Anda dapat mengirimkan, memposting, atau menampilkan konten di layanan kami. Dengan melakukannya, Anda memberikan kami hak non-eksklusif, bebas royalti, dan dapat disublisensikan untuk menggunakan, menyalin, memodifikasi, serta memublikasikan konten tersebut di seluruh dunia.</p>
+      <p>Anda bertanggung jawab atas konten yang Anda unggah dan harus mematuhi hukum yang berlaku.</p>
     </div>
 
     <div class="section">
-        <h2>6. Batasan Penggunaan</h2>
-        <p>Anda setuju untuk tidak menggunakan layanan kami untuk tujuan ilegal atau dilarang oleh Ketentuan ini. Anda dilarang untuk:</p>
-        <ul>
-            <li>Melanggar hak cipta, merek dagang, atau hak kekayaan intelektual lainnya</li>
-            <li>Mendistribusikan malware atau perangkat lunak berbahaya</li>
-            <li>Menyalahgunakan fitur iklan untuk menipu atau menghasilkan klik palsu</li>
-        </ul>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 6</div>
+      <h2>Batasan Penggunaan</h2>
+      <p>Anda setuju untuk tidak menggunakan layanan kami untuk tujuan ilegal atau dilarang oleh Ketentuan ini. Anda dilarang untuk:</p>
+      <ul>
+        <li>Melanggar hak cipta, merek dagang, atau hak kekayaan intelektual lainnya</li>
+        <li>Mendistribusikan malware atau perangkat lunak berbahaya</li>
+        <li>Menyalahgunakan fitur iklan untuk menipu atau menghasilkan klik palsu</li>
+      </ul>
     </div>
 
     <div class="section">
-        <h2>7. Ketentuan Pembayaran</h2>
-        <p>Beberapa layanan mungkin memerlukan pembayaran. Jika demikian, informasi harga akan disediakan sebelum Anda melakukan pembelian. Semua biaya bersifat final, kecuali dinyatakan lain dalam kebijakan pengembalian kami.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 7</div>
+      <h2>Ketentuan Pembayaran</h2>
+      <p>Beberapa layanan mungkin memerlukan pembayaran. Jika demikian, informasi harga akan disediakan sebelum Anda melakukan pembelian. Semua biaya bersifat final, kecuali dinyatakan lain dalam kebijakan pengembalian kami.</p>
     </div>
 
     <div class="section">
-        <h2>8. Privasi</h2>
-        <p>Penggunaan data dan privasi Anda diatur dalam <a href="/privacy">Kebijakan Privasi kami</a>. Dengan menggunakan layanan, Anda setuju bahwa kami dapat mengumpulkan, menggunakan, dan membagikan data Anda sebagaimana dijelaskan dalam Kebijakan Privasi tersebut.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 8</div>
+      <h2>Privasi</h2>
+      <p>Penggunaan data dan privasi Anda diatur dalam <a href="/privacy">Kebijakan Privasi kami</a>. Dengan menggunakan layanan, Anda setuju bahwa kami dapat mengumpulkan, menggunakan, dan membagikan data Anda sebagaimana dijelaskan dalam Kebijakan Privasi tersebut.</p>
     </div>
 
     <div class="section">
-        <h2>9. Hak Milik Intelektual</h2>
-        <p>Semua hak cipta, merek dagang, dan hak kekayaan intelektual lainnya pada layanan dan konten kami adalah milik kami atau lisensor kami. Anda diberikan lisensi terbatas, tidak eksklusif, untuk mengakses dan menggunakan layanan sesuai dengan Ketentuan ini.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 9</div>
+      <h2>Hak Milik Intelektual</h2>
+      <p>Semua hak cipta, merek dagang, dan hak kekayaan intelektual lainnya pada layanan dan konten kami adalah milik kami atau lisensor kami. Anda diberikan lisensi terbatas, tidak eksklusif, untuk mengakses dan menggunakan layanan sesuai dengan Ketentuan ini.</p>
     </div>
 
     <div class="section">
-        <h2>10. Penyangkalan Jaminan</h2>
-        <p>Layanan disediakan "sebagaimana adanya" dan "sebagaimana tersedia" tanpa jaminan apa pun. Kami tidak menjamin bahwa layanan akan bebas dari kesalahan, gangguan, atau virus.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 10</div>
+      <h2>Penyangkalan Jaminan</h2>
+      <p>Layanan disediakan "sebagaimana adanya" dan "sebagaimana tersedia" tanpa jaminan apa pun. Kami tidak menjamin bahwa layanan akan bebas dari kesalahan, gangguan, atau virus.</p>
     </div>
 
     <div class="section">
-        <h2>11. Batasan Tanggung Jawab</h2>
-        <p>Kami tidak akan bertanggung jawab atas kerugian tidak langsung, khusus, insidental, atau konsekuensial yang timbul dari penggunaan atau ketidakmampuan menggunakan layanan.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 11</div>
+      <h2>Batasan Tanggung Jawab</h2>
+      <p>Kami tidak akan bertanggung jawab atas kerugian tidak langsung, khusus, insidental, atau konsekuensial yang timbul dari penggunaan atau ketidakmampuan menggunakan layanan.</p>
     </div>
 
     <div class="section">
-        <h2>12. Perubahan Ketentuan</h2>
-        <p>Kami berhak mengubah Ketentuan ini kapan saja. Perubahan akan diberitahukan melalui pembaruan pada halaman ini atau pemberitahuan lain. Penggunaan layanan setelah perubahan dianggap sebagai penerimaan terhadap Ketentuan yang diperbarui.</p>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 12</div>
+      <h2>Perubahan Ketentuan</h2>
+      <p>Kami berhak mengubah Ketentuan ini kapan saja. Perubahan akan diberitahukan melalui pembaruan pada halaman ini atau pemberitahuan lain. Penggunaan layanan setelah perubahan dianggap sebagai penerimaan terhadap Ketentuan yang diperbarui.</p>
     </div>
 
     <div class="section">
-        <h2>13. Kontak</h2>
-        <p>Jika Anda memiliki pertanyaan tentang Ketentuan ini, silakan hubungi kami di:</p>
-        <ul>
-            <li>Email: support@rsynzr.cloud</li>
-        </ul>
+      <div class="section-num"><span class="section-num-dot"></span> Pasal 13</div>
+      <h2>Kontak</h2>
+      <p>Jika Anda memiliki pertanyaan tentang Ketentuan ini, silakan hubungi kami di:</p>
+      <ul>
+        <li>Email: <a href="mailto:support@rsynzr.cloud">support@rsynzr.cloud</a></li>
+      </ul>
     </div>
 
-    <footer>
-        &copy; <a href="https://rsynzr.cloud">rsynzr.cloud</a> - All Rights Reserved.
-    </footer>
+  </div>
+
+  <footer>
+    &copy; 2026 <a href="https://rsynzr.cloud">rsynzr.cloud</a> — All Rights Reserved.
+  </footer>
+
 </body>
 </html>

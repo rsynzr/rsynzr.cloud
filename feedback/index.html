@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback — rsynzr.cloud</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-dark: #0b1220;
+      --bg-mid: #0f1b3d;
+      --bg-light: #1a2f6b;
+      --accent: #3b82f6;
+      --accent-bright: #60a5fa;
+      --accent-glow: rgba(59,130,246,0.4);
+      --text-primary: #e8f0fe;
+      --text-secondary: #94a3b8;
+      --card-bg: rgba(15,27,61,0.6);
+      --card-border: rgba(59,130,246,0.18);
+      --nav-bg: rgba(11,18,32,0.75);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(160deg, var(--bg-dark) 0%, var(--bg-mid) 50%, var(--bg-light) 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(59,130,246,0.12);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--accent-bright); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--accent-bright);
+      background: rgba(59,130,246,0.1);
+    }
+    .nav-links a.cta {
+      background: rgba(59,130,246,0.15);
+      border: 1px solid rgba(59,130,246,0.3);
+      color: var(--accent-bright);
+    }
+    .nav-links a.cta:hover { background: rgba(59,130,246,0.28); }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 1.25rem 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 460px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      animation: fadeUp 0.6s ease both;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(59,130,246,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96,165,250,0.4), transparent);
+    }
+
+    .card-brand {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .card-brand span { color: var(--accent-bright); }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #e8f0fe 30%, var(--accent-bright) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.4rem;
+      text-align: center;
+    }
+
+    .card-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .field label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.04em;
+    }
+
+    .field select,
+    .field textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      color: var(--text-primary);
+      font-size: 0.93rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .field select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    .field select option {
+      background: #0f1b3d;
+      color: var(--text-primary);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .field select:focus,
+    .field textarea:focus {
+      border-color: rgba(96,165,250,0.5);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    }
+
+    .field select::placeholder,
+    .field textarea::placeholder { color: rgba(148,163,184,0.45); }
+
+    .btn-submit {
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, rgba(59,130,246,0.8), rgba(96,165,250,0.7));
+      border: 1px solid rgba(96,165,250,0.5);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover:not(:disabled) {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59,130,246,0.35);
+    }
+    .btn-submit:active:not(:disabled) { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+    .success-msg {
+      display: none;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.3);
+      color: #86efac;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 1rem;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    footer {
+      border-top: 1px solid rgba(59,130,246,0.1);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: rgba(148,163,184,0.5);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      nav { padding: 0 1rem; }
+      .nav-links a:not(.cta) { display: none; }
+      .card { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="https://rsynzr.cloud/" class="nav-brand">rsynzr<span>.cloud</span></a>
+    <ul class="nav-links">
+      <li><a href="signin.html">Login</a></li>
+      <li><a href="signup.html" class="cta">Sign Up</a></li>
+      <li><a href="https://rsynzr.cloud/">Home</a></li>
+      <li><a href="https://project.rsynzr.cloud/">Projects</a></li>
+      <li><a href="https://donate.rsynzr.cloud/">Donate</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <div class="card">
+      <div class="card-brand">rsynzr<span>.cloud</span></div>
+      <h1 class="card-title">Send Feedback</h1>
+      <p class="card-subtitle">Bantu kami jadi lebih baik — kurang dari 10 detik</p>
+
+      <form id="feedback-form">
+        <div class="field">
+          <label for="type">Jenis Feedback</label>
+          <select id="type" required>
+            <option value="" disabled selected>Pilih jenis feedback...</option>
+            <option value="Saran fitur">Saran fitur</option>
+            <option value="Bug / error">Bug / error</option>
+            <option value="Kritik">Kritik</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="message">Pesan</label>
+          <textarea id="message" placeholder="Jelaskan lebih detail..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btn-submit">Kirim Feedback</button>
+      </form>
+
+      <div class="success-msg" id="success-msg">Feedback terkirim ✅</div>
+    </div>
+  </div>
+
+  <footer>&copy; 2026 rsynzr.cloud. All rights reserved.</footer>
+
+  <script type="module">
+    import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth }        from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQVXuqpkgOelSMhgg-I5QRokehHvm-c8M",
+      authDomain: "rsynzr-cloud.firebaseapp.com",
+      projectId: "rsynzr-cloud",
+      appId: "1:284978411498:web:2e1a2abb680b0a86f4a493",
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    const form       = document.getElementById("feedback-form");
+    const btnSubmit  = document.getElementById("btn-submit");
+    const successMsg = document.getElementById("success-msg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const type    = document.getElementById("type").value;
+      const message = document.getElementById("message").value.trim();
+
+      if (!type || !message) return;
+
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = "Mengirim...";
+      successMsg.style.display = "none";
+
+      try {
+        await addDoc(collection(db, "feedbacks"), {
+          userId:    auth.currentUser?.uid ?? null,
+          type:      type,
+          message:   message,
+          page:      window.location.pathname,
+          device:    navigator.userAgent,
+          createdAt: Date.now(),
+        });
+
+        form.reset();
+        successMsg.style.display = "block";
+      } catch (err) {
+        alert("Gagal mengirim feedback: " + err.message);
+      } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = "Kirim Feedback";
+      }
+    });
+  </script>
+</body>
+</html>
